@@ -1,0 +1,10 @@
+C:\Users\Alexia\Desktop\Visual Studio\Moara\bin\Debug\Moara.exe.config
+C:\Users\Alexia\Desktop\Visual Studio\Moara\bin\Debug\Moara.exe
+C:\Users\Alexia\Desktop\Visual Studio\Moara\bin\Debug\Moara.pdb
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.csproj.AssemblyReference.cache
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.Form1.resources
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.Properties.Resources.resources
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.csproj.GenerateResource.cache
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.csproj.CoreCompileInputs.cache
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.exe
+C:\Users\Alexia\Desktop\Visual Studio\Moara\obj\Debug\Moara.pdb
