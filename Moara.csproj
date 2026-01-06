@@ -68,6 +68,12 @@
     <Compile Include="RedPiece.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerSelector.Designer.cs">
+      <DependentUpon>ServerSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="ServerState.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -76,6 +82,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerSelector.resx">
+      <DependentUpon>ServerSelector.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -70,7 +70,7 @@ namespace Moara
             boardArea.Controls.Add(label);
         }
 
-        private void UpdateLabel()
+        public void UpdateLabel()
         {
             if (label.InvokeRequired)
             {
@@ -182,6 +182,12 @@ namespace Moara
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ServerSelector selector = new ServerSelector(this);
+            selector.ShowDialog();
+        }
+
+        public void Connect(String ip, int port)
         {
             networkModule = new Client("127.0.0.1", 7071, this);
             me = 2;

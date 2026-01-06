@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -22,6 +23,8 @@ namespace Moara
             Listener.Start();
             State = ServerState.WaitingForClient;
 
+            form.SetLabel("Waiting for client...", Color.White);
+
             Thread = new Thread(new ThreadStart(StartListening));
             ThreadAlive = true;
 
@@ -40,11 +43,13 @@ namespace Moara
                     Writer = new StreamWriter(NetStream);
                     Writer.AutoFlush = true; // Trimite pe stream dupa fiecare scriere, nu asteapta sa se umple buffer-ul
 
+                    form.UpdateLabel();
+
                     ListenLoop();
                 }
                 catch (SocketException)
                 {
-                    MessageBox.Show("Socket was closed - expected during shutdown");
+                    // MessageBox.Show("Socket was closed - expected during shutdown");
                     break;
                 }
                 catch (Exception e)

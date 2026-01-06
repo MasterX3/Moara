@@ -16,7 +16,7 @@ namespace Moara
         public Thread Thread { get; set; }
         public bool ThreadAlive { get; set; }
 
-        private Form1 form;
+        protected Form1 form;
 
         public NetworkModule(Form1 form) {
             this.form = form;
@@ -47,7 +47,6 @@ namespace Moara
             }
             catch (IOException e)
             {
-                MessageBox.Show("" + GetNetworkType() + " - exceptie");
                 // Connection closed or interrupted - this is expected during shutdown
             }
             catch (ObjectDisposedException)
