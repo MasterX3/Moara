@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-using System.Windows.Forms;
 
 namespace Moara
 {
@@ -39,10 +38,10 @@ namespace Moara
                         break;
                     }
 
-                    NetworkMessage message = JsonConvert.DeserializeObject<NetworkMessage>(dateServer);
+                    NetworkMessage message = JsonConvert.DeserializeObject<NetworkMessage>(stringMessage);
                     form.MessageReceived(message);
 
-                    // MessageBox.Show("Date primite de la " + GetNetworkType() + ": " + dateServer); // pentru debug
+                    // MessageBox.Show("Date primite de la " + GetNetworkType() + ": " + stringMessage); // pentru debug
                 }
             }
             catch (IOException e)
