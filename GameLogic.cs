@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Moara
@@ -18,9 +11,9 @@ namespace Moara
         public PlayerRed1 JucatorR1;
         public PlayerBlue2 JucatorB2;
 
-        Piece piesaDeMutat = null;
+        public Piece piesaDeMutat = null;
         Piece piesaApasata = null;
-        Piece rezerva = null;
+        public Piece rezerva = null;
 
         bool gameOn = true;
         public bool moara = false;
@@ -410,7 +403,15 @@ namespace Moara
                     if (rezerva != null)
                         rezerva.PictureBox.BackColor = Color.Transparent;
                     piesaDeMutat.HighLight();
-                    piesaDeMutat.PictureBox.BringToFront();
+
+                    if (piesaDeMutat.PictureBox.InvokeRequired)
+                    {
+                        piesaDeMutat.PictureBox.Invoke(new Action(() => piesaDeMutat.PictureBox.BringToFront()));
+                    }
+                    else
+                    {
+                        piesaDeMutat.PictureBox.BringToFront();
+                    }
                 }
             }
         }
@@ -425,7 +426,36 @@ namespace Moara
             return piesaApasata;
         }
 
-        public void MovePiece(int pozitieNouaIndex)
+        public Piece GetPiece(int id, int player)
+        {
+            if (piesaDeMutat != null)
+                rezerva = piesaDeMutat;
+
+            if (player == 1)
+            {
+                foreach (Piece item in JucatorR1.PieseRosii)
+                {
+                    if (item.id == id)
+                    {
+                        piesaApasata = item;
+                    }
+                }
+            }
+            else
+            {
+                foreach (Piece item in JucatorB2.PieseAlbastre)
+                {
+                    if (item.id == id)
+                    {
+                        piesaApasata = item;
+                    }
+                }
+            }
+
+            return piesaApasata;
+        }
+
+        public bool MovePiece(int pozitieNouaIndex)
         {
             if (piesaDeMutat != null && gameOn && !moara)
             {
@@ -446,7 +476,7 @@ namespace Moara
 
                             if (pieseRamase > 3 && !mutareValida)
                             {
-                                return;
+                                return false;
                             }
                         }
                         else
@@ -461,11 +491,25 @@ namespace Moara
                             }
                         }
 
-                        piesaDeMutat.PictureBox.Location = new Point(
-    PozitiiTabla[pozitieNouaIndex].X - (piesaDeMutat.PictureBox.Width / 2),
-    PozitiiTabla[pozitieNouaIndex].Y - (piesaDeMutat.PictureBox.Height / 2));
+                        if (piesaDeMutat.PictureBox.InvokeRequired)
+                        {
+                            piesaDeMutat.PictureBox.Invoke(new Action(() =>
+                            {
+                                piesaDeMutat.PictureBox.Location = new Point(
+                                    PozitiiTabla[pozitieNouaIndex].X - (piesaDeMutat.PictureBox.Width / 2),
+                                    PozitiiTabla[pozitieNouaIndex].Y - (piesaDeMutat.PictureBox.Height / 2));
 
-                        piesaDeMutat.PictureBox.BackColor = Color.Transparent;
+                                piesaDeMutat.PictureBox.BackColor = Color.Transparent;
+                            }));
+                        }
+                        else
+                        {
+                            piesaDeMutat.PictureBox.Location = new Point(
+                                PozitiiTabla[pozitieNouaIndex].X - (piesaDeMutat.PictureBox.Width / 2),
+                                PozitiiTabla[pozitieNouaIndex].Y - (piesaDeMutat.PictureBox.Height / 2));
+
+                            piesaDeMutat.PictureBox.BackColor = Color.Transparent;
+                        }
 
                         piesaDeMutat.Pozitie = pozitieNouaIndex;
                         piesaDeMutat.Plasat = true;
@@ -474,6 +518,8 @@ namespace Moara
 
 
                         piesaDeMutat = null;
+
+                        return true;
                     }
 
 
@@ -485,6 +531,8 @@ namespace Moara
                     piesaDeMutat = null;
                 }
             }
+
+            return false;
         }
 
         

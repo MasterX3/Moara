@@ -1,0 +1,75 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Net.Sockets;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace Moara
+{
+    public abstract class NetworkModule
+    {
+        protected NetworkStream NetStream { get; set; }
+        public StreamReader Reader { get; set; }
+        public StreamWriter Writer { get; set; }
+        public Thread Thread { get; set; }
+        public bool ThreadAlive { get; set; }
+
+        private Form1 form;
+
+        public NetworkModule(Form1 form) {
+            this.form = form;
+        }
+
+        protected abstract string GetNetworkType();
+
+        protected void ListenLoop()
+        {
+            try
+            {
+                while (ThreadAlive)
+                {
+                    string dateServer = Reader.ReadLine();
+
+                    if (dateServer == null) break;//primesc nimic - clientul a plecat
+                    if (dateServer == "#Gata") //ca sa pot sa inchid serverul
+                        ThreadAlive = false;
+
+                    NetworkMessage message = JsonConvert.DeserializeObject<NetworkMessage>(dateServer);
+                    form.MessageReceived(message);
+
+                    // MessageBox.Show("Date primite de la " + GetNetworkType() + ": " + dateServer); // pentru debug
+                }
+            }
+            catch (IOException)
+            {
+                // Connection closed or interrupted - this is expected during shutdown
+            }
+            catch (ObjectDisposedException)
+            {
+                // Stream was disposed - this is expected during shutdown
+            }
+        }
+
+        public void Send(NetworkMessage message)
+        {
+            string msgString = JsonConvert.SerializeObject(message);
+            Writer.WriteLine(msgString);
+        }
+
+        public void Stop()
+        {
+            ThreadAlive = false;
+            
+            try
+            {
+                NetStream.Close();
+            }
+            catch
+            {
+                // Ignore any errors during cleanup
+            }
+        }
+
+    }
+}
