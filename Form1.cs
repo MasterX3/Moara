@@ -21,23 +21,19 @@ namespace Moara
             this.UpdateStyles();
             
 
-            this.MouseClick += Board_MouseClick;
+            boardArea.MouseClick += Board_MouseClick;
 
             //this.MouseMove += Form1_MouseMove_Coordonate;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.BackgroundImage = Properties.Resources.moara_png;
-            //this.BackgroundImageLayout = ImageLayout.Stretch;
-
         }
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
-            this.BackgroundImage = Properties.Resources.moara_png;
-            this.BackgroundImageLayout = ImageLayout.Stretch;
-            this.ClientSize = new Size(600, 600);
+            boardArea.BackgroundImage = Properties.Resources.moara_png;
+            boardArea.BackgroundImageLayout = ImageLayout.Stretch;
 
             gameLogic = new GameLogic();
 
@@ -47,7 +43,7 @@ namespace Moara
                 
                 p.PictureBox.MouseClick += Piesa_Click;
 
-                this.Controls.Add(p.PictureBox);
+                boardArea.Controls.Add(p.PictureBox);
 
             }
 
@@ -56,7 +52,7 @@ namespace Moara
                 
                 p.PictureBox.MouseClick += Piesa_Click;
 
-                this.Controls.Add(p.PictureBox);
+                boardArea.Controls.Add(p.PictureBox);
             }
 
             label = new Label();
@@ -71,7 +67,7 @@ namespace Moara
 
             label.BringToFront();
             label.Location = new Point((this.ClientSize.Width - label.Width) / 2, 250);
-            this.Controls.Add(label);
+            boardArea.Controls.Add(label);
         }
 
         private void UpdateLabel()
@@ -89,7 +85,23 @@ namespace Moara
                 label.Text = gameLogic.GetMessage();
                 label.ForeColor = gameLogic.GetColor();
             }
-            //label.BringToFront();
+        }
+
+        public void SetLabel(string message, Color color)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new Action(() =>
+                {
+                    label.Text = message;
+                    label.ForeColor = color;
+                }));
+            }
+            else
+            {
+                label.Text = message;
+                label.ForeColor = color;
+            }
         }
 
         private void Piesa_Click(object sender, EventArgs e)
@@ -114,7 +126,7 @@ namespace Moara
                 {
                     gameLogic.boardState[piesa.Pozitie] = 0;
                     piesa.Pozitie = -1;
-                    this.Controls.Remove(pb);
+                    boardArea.Controls.Remove(pb);
                     UpdateLabel();
 
                     gameLogic.UpdateNumberOfPieces(piesa);
@@ -203,11 +215,11 @@ namespace Moara
                     piesa.Pozitie = -1;
                     if (this.InvokeRequired)
                     {
-                        this.Invoke(new Action(() => this.Controls.Remove(piesa.PictureBox)));
+                        this.Invoke(new Action(() => boardArea.Controls.Remove(piesa.PictureBox)));
                     }
                     else
                     {
-                        this.Controls.Remove(piesa.PictureBox);
+                        boardArea.Controls.Remove(piesa.PictureBox);
                     }
                     gameLogic.UpdateNumberOfPieces(piesa);
                 }

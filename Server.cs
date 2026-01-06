@@ -12,6 +12,7 @@ namespace Moara
 {
     public class Server : NetworkModule
     {
+        private Socket socket;
         public ServerState State { get; set; }
         public TcpListener Listener { get; set; }
    
@@ -33,7 +34,7 @@ namespace Moara
             {
                 try
                 {
-                    Socket socket = Listener.AcceptSocket();
+                    socket = Listener.AcceptSocket();
                     NetStream = new NetworkStream(socket);
                     Reader = new StreamReader(NetStream);
                     Writer = new StreamWriter(NetStream);
@@ -77,5 +78,6 @@ namespace Moara
             
             base.Stop();
         }
+
     }
 }

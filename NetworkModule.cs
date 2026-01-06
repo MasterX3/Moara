@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
@@ -31,9 +32,12 @@ namespace Moara
                 {
                     string dateServer = Reader.ReadLine();
 
-                    if (dateServer == null) break;//primesc nimic - clientul a plecat
-                    if (dateServer == "#Gata") //ca sa pot sa inchid serverul
-                        ThreadAlive = false;
+                    if (dateServer == null)
+                    {
+                        // Clientul s-a deconectat
+                        form.SetLabel("Adversarul s-a deconectat!", Color.Yellow);
+                        break;
+                    }
 
                     NetworkMessage message = JsonConvert.DeserializeObject<NetworkMessage>(dateServer);
                     form.MessageReceived(message);
@@ -41,14 +45,16 @@ namespace Moara
                     // MessageBox.Show("Date primite de la " + GetNetworkType() + ": " + dateServer); // pentru debug
                 }
             }
-            catch (IOException)
+            catch (IOException e)
             {
+                MessageBox.Show("" + GetNetworkType() + " - exceptie");
                 // Connection closed or interrupted - this is expected during shutdown
             }
             catch (ObjectDisposedException)
             {
                 // Stream was disposed - this is expected during shutdown
             }
+            Stop();
         }
 
         public void Send(NetworkMessage message)
