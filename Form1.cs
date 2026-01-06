@@ -10,7 +10,7 @@ namespace Moara
         NetworkModule networkModule;
         GameLogic gameLogic;
         private Label label;
-        private int me;
+        private int me = 0; // nici un jucator pana nu se conecteaza
         
         public Form1()
         {

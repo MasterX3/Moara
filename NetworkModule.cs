@@ -30,9 +30,9 @@ namespace Moara
             {
                 while (ThreadAlive)
                 {
-                    string dateServer = Reader.ReadLine();
+                    string stringMessage = Reader.ReadLine();
 
-                    if (dateServer == null)
+                    if (stringMessage == null)
                     {
                         // Clientul s-a deconectat
                         form.SetLabel("Adversarul s-a deconectat!", Color.Yellow);
