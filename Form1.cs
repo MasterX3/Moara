@@ -179,18 +179,27 @@ namespace Moara
         {
             networkModule = new Server(this);
             me = 1;
+            startServerToolStripMenuItem.Enabled = false;
+            connectToolStripMenuItem.Enabled = false;
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ServerSelector selector = new ServerSelector(this);
-            selector.ShowDialog();
+            selector.StartPosition = FormStartPosition.Manual;
+            // center child relative to main form
+            selector.Location = new Point(
+                this.Location.X + (this.Width - selector.Width) / 2,
+                this.Location.Y + (this.Height - selector.Height) / 2);
+            selector.ShowDialog(this);
         }
 
         public void Connect(String ip, int port)
         {
             networkModule = new Client("127.0.0.1", 7071, this);
             me = 2;
+            startServerToolStripMenuItem.Enabled = false;
+            connectToolStripMenuItem.Enabled = false;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
